@@ -132,7 +132,7 @@ executing the following command as root
     
 - [ ] auto start iptables command
 - [ ] don't add iptables command more than once
-
+- [ ] add dns config (currently google dns servers are used)
 
 
 

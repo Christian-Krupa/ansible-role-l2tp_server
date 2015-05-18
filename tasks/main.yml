@@ -1,0 +1,40 @@
+---
+
+- name: install vpn server packages
+  apt: pkg={{item}}
+  sudo: yes
+  with_items:
+    - openswan
+    - xl2tpd
+    - ipsec-tools
+    - ppp
+    - lsof #for debugging purpose
+
+- template: src="chap-secrets" dest=/etc/ppp/chap-secrets mode=600 owner=root group=root
+  sudo: yes
+  notify:
+    - restart ipsec
+    - restart xl2tpd
+
+- template: src={{item.src}} dest={{item.dest}} mode={{item.mode}} owner=root group=root
+  sudo: yes
+  with_items:
+    - { src: 'ipsec.secrets.inc', dest: '/var/lib/openswan/ipsec.secrets.inc', mode: 600} #loaded within: /etc/ipsec.secrets
+    - { src: 'ipsec.conf', dest: '/etc/ipsec.conf', mode: 644}
+    - { src: 'xl2tpd.conf', dest: '/etc/xl2tpd/xl2tpd.conf', mode: 644}
+    - { src: 'options.xl2tpd', dest: '/etc/ppp/options.xl2tpd', mode: 644}
+  notify:
+    - restart ipsec
+    - restart xl2tpd
+
+- service: name=ipsec enabled=yes
+- service: name=xl2tpd enabled=yes
+
+- template: src=sysctl.conf dest=/etc/sysctl.d/l2tp_server.conf mode=644 owner=root group=root
+  sudo: yes
+  notify:
+    - reload sysctl
+
+- command: "iptables --table nat --append POSTROUTING --jump MASQUERADE"
+  sudo: yes
+  #"iptables -t nat -L|grep MASQUERADE"
