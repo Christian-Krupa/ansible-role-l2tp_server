@@ -134,6 +134,7 @@ executing the following command as root
 #### amazon ec2
 
 you need to configure the public ip and private ip, collect them with this curl requests (from the ec2-server)
+
     curl http://169.254.169.254/latest/meta-data/public-ipv4
     curl http://169.254.169.254/latest/meta-data/local-ipv4
 
