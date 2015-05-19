@@ -9,7 +9,12 @@ vpn clients have to support l2tp.
 * raspberry pi
 
     Debian GNU/Linux 7.8 (wheezy)
+    Linux Openswan U2.6.37/K3.18.7+ (netkey)
 
+* amazon ec2
+
+    Ubuntu Server 14.04 LTS (HVM), SSD Volume Type - ami-accff2b1
+    Linux Openswan U2.6.38/K3.13.0-52-generic (netkey)
 
 #### tested clients
 
@@ -17,13 +22,19 @@ vpn clients have to support l2tp.
 * ipad
 
 
-
 ## role variables
 
 `l2tp_server_ipaddress:`
 
-the ip adress to bind the server on. 
+the external ip adress to bind the server on.
 example @192.168.0.123@ or @{{ ansible_eth0.ipv4.address }}@
+
+`l2tp_server_ipaddress_private:`
+
+the internal ip adress to bind the server on. most configs use the same ip as l2tp_server_ipaddress.
+only special network configs like ec2 servers needs a different private ip.
+example @172.31.23.239@ or @{{ ansible_eth0.ipv4.address }}@
+
 
 `l2tp_server_preshared_key:`
 
@@ -57,6 +68,9 @@ ubuntu / debian:
 raspberry:
 - http://linux.tips/tutorials/how-to-setup-l2tp-vpn-server-on-raspberry-pi#comment-2
 - http://willitscript.com/post/40357408648/using-your-pi-as-a-l2tp-vpn-server
+
+amazon ec2:
+- https://gist.github.com/hwdsl2/9030462
 
 ## troubleshooting
 
@@ -116,8 +130,11 @@ executing the following command as root
 
     mknod /dev/ppp c 108 0
 
+#### amazon ec2
 
-
+you need to configure the public ip and private ip, collect them with this curl requests (from the ec2-server)
+    curl http://169.254.169.254/latest/meta-data/public-ipv4
+    curl http://169.254.169.254/latest/meta-data/local-ipv4
 
 ### todo's
 
@@ -133,8 +150,8 @@ executing the following command as root
 - [ ] auto start iptables command
 - [ ] don't add iptables command more than once
 - [ ] add dns config (currently google dns servers are used)
-- [ ] test cloud based systems (ec2, rackspace, digitalocean)
-
+- [ ] test cloud based systems ( rackspace, digitalocean)
+- [x] test on amazon ec2
 
 ## license
 
