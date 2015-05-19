@@ -51,6 +51,7 @@ a preshared key for every user example @Reishoh3gauweng4eigh@
 ## example host-vars
 
     l2tp_server_ipaddress: 192.168.0.70
+    l2tp_server_ipaddress_private: 192.168.0.70
     l2tp_server_preshared_key: Reishoh3gauweng4eigh
     l2tp_server_users:
         chris:
