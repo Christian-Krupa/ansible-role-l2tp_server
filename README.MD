@@ -8,13 +8,13 @@ vpn clients have to support l2tp.
 
 * raspberry pi
 
-    Debian GNU/Linux 7.8 (wheezy)
-    Linux Openswan U2.6.37/K3.18.7+ (netkey)
+        Debian GNU/Linux 7.8 (wheezy)
+        Linux Openswan U2.6.37/K3.18.7+ (netkey)
 
 * amazon ec2
 
-    Ubuntu Server 14.04 LTS (HVM), SSD Volume Type - ami-accff2b1
-    Linux Openswan U2.6.38/K3.13.0-52-generic (netkey)
+        Ubuntu Server 14.04 LTS (HVM), SSD Volume Type - ami-accff2b1
+        Linux Openswan U2.6.38/K3.13.0-52-generic (netkey)
 
 #### tested clients
 
@@ -31,7 +31,7 @@ example @192.168.0.123@ or @{{ ansible_eth0.ipv4.address }}@
 
 `l2tp_server_ipaddress_private:`
 
-the internal ip adress to bind the server on. most configs use the same ip as l2tp_server_ipaddress.
+the internal ip adress to bind the server on. most configs use the same ip as `l2tp_server_ipaddress`.
 only special network configs like ec2 servers needs a different private ip.
 example @172.31.23.239@ or @{{ ansible_eth0.ipv4.address }}@
 
